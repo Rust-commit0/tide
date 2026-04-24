@@ -1,12 +1,9 @@
 use serde::Serialize;
-
 use crate::http::headers::{HeaderName, ToHeaderValues};
 use crate::http::{Body, Mime, StatusCode};
 use crate::Response;
 use std::convert::TryInto;
-
 #[derive(Debug)]
-
 /// Response Builder
 ///
 /// Provides an ergonomic way to chain the creation of a response. This is generally accessed through [`Response::builder`](crate::Response::builder)
@@ -26,34 +23,32 @@ use std::convert::TryInto;
 /// assert_eq!(response["custom-header"], "value");
 /// assert_eq!(response.content_type(), Some(mime::HTML));
 /// # });
-
 pub struct ResponseBuilder(Response);
-
 impl ResponseBuilder {
     pub(crate) fn new<S>(status: S) -> Self
     where
         S: TryInto<StatusCode>,
         S::Error: std::fmt::Debug,
     {
-        Self(Response::new(status))
+        panic!("STUB: not implemented");
     }
-
     /// Returns the inner Response
     pub fn build(self) -> Response {
-        self.0
+        panic!("STUB: not implemented");
     }
-
     /// Sets a header on the response.
     /// ```
     /// # use tide::Response;
     /// let response = Response::builder(200).header("header-name", "header-value").build();
     /// assert_eq!(response["header-name"], "header-value");
     /// ```
-    pub fn header(mut self, key: impl Into<HeaderName>, value: impl ToHeaderValues) -> Self {
-        self.0.insert_header(key, value);
-        self
+    pub fn header(
+        mut self,
+        key: impl Into<HeaderName>,
+        value: impl ToHeaderValues,
+    ) -> Self {
+        panic!("STUB: not implemented");
     }
-
     /// Sets the Content-Type header on the response.
     ///
     /// # Examples
@@ -64,10 +59,8 @@ impl ResponseBuilder {
     /// assert_eq!(response["content-type"], "text/html;charset=utf-8");
     /// ```
     pub fn content_type(mut self, content_type: impl Into<Mime>) -> Self {
-        self.0.set_content_type(content_type);
-        self
+        panic!("STUB: not implemented");
     }
-
     /// Sets the body of the response.
     ///
     /// # Examples
@@ -80,10 +73,8 @@ impl ResponseBuilder {
     /// # });
     /// ```
     pub fn body(mut self, body: impl Into<Body>) -> Self {
-        self.0.set_body(body);
-        self
+        panic!("STUB: not implemented");
     }
-
     /// Pass JSON as the response body.
     ///
     /// # Mime
@@ -112,9 +103,8 @@ impl ResponseBuilder {
     /// # Ok(()) }
     /// ```
     pub fn body_json(self, json: &impl Serialize) -> crate::Result<Self> {
-        Ok(self.body(Body::from_json(json)?))
+        panic!("STUB: not implemented");
     }
-
     /// Pass a string as the response body.
     ///
     /// # Mime
@@ -133,9 +123,8 @@ impl ResponseBuilder {
     /// # Ok(()) }
     /// ```
     pub fn body_string(self, string: String) -> Self {
-        self.body(Body::from_string(string))
+        panic!("STUB: not implemented");
     }
-
     /// Pass bytes as the response body.
     ///
     /// # Mime
@@ -154,9 +143,8 @@ impl ResponseBuilder {
     /// # Ok(()) }
     /// ```
     pub fn body_bytes(self, bytes: impl AsRef<[u8]>) -> Self {
-        self.body(Body::from(bytes.as_ref()))
+        panic!("STUB: not implemented");
     }
-
     /// Pass a file as the response body.
     ///
     /// # Mime
@@ -181,13 +169,15 @@ impl ResponseBuilder {
     /// assert_eq!(res.status(), 200);
     /// # Ok(()) }
     /// ```
-    pub async fn body_file(self, path: impl AsRef<std::path::Path>) -> std::io::Result<Self> {
-        Ok(self.body(Body::from_file(path).await?))
+    pub async fn body_file(
+        self,
+        path: impl AsRef<std::path::Path>,
+    ) -> std::io::Result<Self> {
+        panic!("STUB: not implemented");
     }
 }
-
 impl From<ResponseBuilder> for Response {
     fn from(response_builder: ResponseBuilder) -> Response {
-        response_builder.build()
+        panic!("STUB: not implemented");
     }
 }

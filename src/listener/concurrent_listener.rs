@@ -1,11 +1,8 @@
 use crate::listener::{ListenInfo, Listener, ToListener};
 use crate::Server;
-
 use std::fmt::{self, Debug, Display, Formatter};
-
 use async_std::io;
 use futures_util::stream::{futures_unordered::FuturesUnordered, StreamExt};
-
 /// ConcurrentListener allows tide to listen on any number of transports
 /// simultaneously (such as tcp ports, unix sockets, or tls).
 ///
@@ -22,7 +19,7 @@ use futures_util::stream::{futures_unordered::FuturesUnordered, StreamExt};
 /// # if cfg!(unix) {
 ///        listener.add("http+unix://unix.socket")?;
 /// # }
-///    
+///
 /// # if false {
 ///        app.listen(listener).await?;
 /// # }
@@ -30,18 +27,15 @@ use futures_util::stream::{futures_unordered::FuturesUnordered, StreamExt};
 ///    })
 ///}
 ///```
-
 #[derive(Default)]
 pub struct ConcurrentListener<State> {
     listeners: Vec<Box<dyn Listener<State>>>,
 }
-
 impl<State: Clone + Send + Sync + 'static> ConcurrentListener<State> {
     /// creates a new ConcurrentListener
     pub fn new() -> Self {
-        Self { listeners: vec![] }
+        panic!("STUB: not implemented");
     }
-
     /// Adds any [`ToListener`](crate::listener::ToListener) to this
     /// ConcurrentListener. An error result represents a failure to convert
     /// the [`ToListener`](crate::listener::ToListener) into a
@@ -60,10 +54,8 @@ impl<State: Clone + Send + Sync + 'static> ConcurrentListener<State> {
     where
         L: ToListener<State>,
     {
-        self.listeners.push(Box::new(listener.to_listener()?));
-        Ok(())
+        panic!("STUB: not implemented");
     }
-
     /// `ConcurrentListener::with_listener` allows for chained construction of a ConcurrentListener:
     /// ```rust,no_run
     /// # use tide::listener::ConcurrentListener;
@@ -79,59 +71,31 @@ impl<State: Clone + Send + Sync + 'static> ConcurrentListener<State> {
     where
         L: ToListener<State>,
     {
-        self.add(listener).expect("Unable to add listener");
-        self
+        panic!("STUB: not implemented");
     }
 }
-
 #[async_trait::async_trait]
 impl<State> Listener<State> for ConcurrentListener<State>
 where
     State: Clone + Send + Sync + 'static,
 {
     async fn bind(&mut self, app: Server<State>) -> io::Result<()> {
-        for listener in self.listeners.iter_mut() {
-            listener.bind(app.clone()).await?;
-        }
-        Ok(())
+        panic!("STUB: not implemented");
     }
-
     async fn accept(&mut self) -> io::Result<()> {
-        let mut futures_unordered = FuturesUnordered::new();
-
-        for listener in self.listeners.iter_mut() {
-            futures_unordered.push(listener.accept());
-        }
-
-        while let Some(result) = futures_unordered.next().await {
-            result?;
-        }
-        Ok(())
+        panic!("STUB: not implemented");
     }
-
     fn info(&self) -> Vec<ListenInfo> {
-        self.listeners
-            .iter()
-            .flat_map(|listener| listener.info().into_iter())
-            .collect()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> Debug for ConcurrentListener<State> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{:?}", self.listeners)
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> Display for ConcurrentListener<State> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        let string = self
-            .listeners
-            .iter()
-            .map(|l| l.to_string())
-            .collect::<Vec<_>>()
-            .join(", ");
-
-        writeln!(f, "{}", string)
+        panic!("STUB: not implemented");
     }
 }

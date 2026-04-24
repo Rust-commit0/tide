@@ -1,6 +1,5 @@
 use super::Listener;
 use async_std::io;
-
 /// ToListener represents any type that can be converted into a
 /// [`Listener`](crate::listener::Listener).  Any type that implements
 /// ToListener can be passed to [`Server::listen`](crate::Server::listen) or
@@ -50,7 +49,6 @@ use async_std::io;
 pub trait ToListener<State: Clone + Send + Sync + 'static> {
     /// What listener are we converting into?
     type Listener: Listener<State>;
-
     /// Transform self into a
     /// [`Listener`](crate::listener::Listener). Unless self is
     /// already bound/connected to the underlying io, converting to a

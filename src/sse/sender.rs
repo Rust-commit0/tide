@@ -3,13 +3,11 @@
 pub struct Sender {
     sender: async_sse::Sender,
 }
-
 impl Sender {
     /// Create a new instance of `Sender`.
     pub(crate) fn new(sender: async_sse::Sender) -> Self {
-        Self { sender }
+        panic!("STUB: not implemented");
     }
-
     /// Send data from the SSE channel.
     ///
     /// Each message consists of a "name" and "data".
@@ -19,6 +17,6 @@ impl Sender {
         data: impl AsRef<str>,
         id: Option<&str>,
     ) -> async_std::io::Result<()> {
-        self.sender.send(name, data.as_ref(), id).await
+        panic!("STUB: not implemented");
     }
 }

@@ -1,9 +1,7 @@
 //! Miscellaneous utilities.
-
 use crate::{Middleware, Next, Request, Response};
 pub use async_trait::async_trait;
 use std::future::Future;
-
 /// Define a middleware that operates on incoming requests.
 ///
 /// This middleware is useful because it is not possible in Rust yet to use
@@ -23,7 +21,6 @@ use std::future::Future;
 /// ```
 #[derive(Debug)]
 pub struct Before<F>(pub F);
-
 #[async_trait]
 impl<State, F, Fut> Middleware<State> for Before<F>
 where
@@ -31,12 +28,14 @@ where
     F: Fn(Request<State>) -> Fut + Send + Sync + 'static,
     Fut: Future<Output = Request<State>> + Send + Sync + 'static,
 {
-    async fn handle(&self, request: Request<State>, next: Next<'_, State>) -> crate::Result {
-        let request = (self.0)(request).await;
-        Ok(next.run(request).await)
+    async fn handle(
+        &self,
+        request: Request<State>,
+        next: Next<'_, State>,
+    ) -> crate::Result {
+        panic!("STUB: not implemented");
     }
 }
-
 /// Define a middleware that operates on outgoing responses.
 ///
 /// This middleware is useful because it is not possible in Rust yet to use
@@ -65,8 +64,11 @@ where
     F: Fn(Response) -> Fut + Send + Sync + 'static,
     Fut: Future<Output = crate::Result> + Send + Sync + 'static,
 {
-    async fn handle(&self, request: Request<State>, next: Next<'_, State>) -> crate::Result {
-        let response = next.run(request).await;
-        (self.0)(response).await
+    async fn handle(
+        &self,
+        request: Request<State>,
+        next: Next<'_, State>,
+    ) -> crate::Result {
+        panic!("STUB: not implemented");
     }
 }

@@ -2,10 +2,8 @@ use async_std::future::Future;
 use async_std::sync::Arc;
 use async_trait::async_trait;
 use http_types::Result;
-
 use crate::middleware::Next;
 use crate::{Middleware, Request, Response};
-
 /// An HTTP request handler.
 ///
 /// This trait is automatically implemented for `Fn` types, and so is rarely implemented
@@ -45,9 +43,7 @@ pub trait Endpoint<State: Clone + Send + Sync + 'static>: Send + Sync + 'static 
     /// Invoke the endpoint within the given context
     async fn call(&self, req: Request<State>) -> crate::Result;
 }
-
 pub(crate) type DynEndpoint<State> = dyn Endpoint<State>;
-
 #[async_trait]
 impl<State, F, Fut, Res> Endpoint<State> for F
 where
@@ -57,36 +53,23 @@ where
     Res: Into<Response> + 'static,
 {
     async fn call(&self, req: Request<State>) -> crate::Result {
-        let fut = (self)(req);
-        let res = fut.await?;
-        Ok(res.into())
+        panic!("STUB: not implemented");
     }
 }
-
 pub(crate) struct MiddlewareEndpoint<E, State> {
     endpoint: E,
     middleware: Vec<Arc<dyn Middleware<State>>>,
 }
-
 impl<E: Clone, State> Clone for MiddlewareEndpoint<E, State> {
     fn clone(&self) -> Self {
-        Self {
-            endpoint: self.endpoint.clone(),
-            middleware: self.middleware.clone(),
-        }
+        panic!("STUB: not implemented");
     }
 }
-
 impl<E, State> std::fmt::Debug for MiddlewareEndpoint<E, State> {
     fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            fmt,
-            "MiddlewareEndpoint (length: {})",
-            self.middleware.len(),
-        )
+        panic!("STUB: not implemented");
     }
 }
-
 impl<E, State> MiddlewareEndpoint<E, State>
 where
     State: Clone + Send + Sync + 'static,
@@ -96,17 +79,9 @@ where
         ep: E,
         middleware: &[Arc<dyn Middleware<State>>],
     ) -> Box<dyn Endpoint<State> + Send + Sync + 'static> {
-        if middleware.is_empty() {
-            Box::new(ep)
-        } else {
-            Box::new(Self {
-                endpoint: ep,
-                middleware: middleware.to_vec(),
-            })
-        }
+        panic!("STUB: not implemented");
     }
 }
-
 #[async_trait]
 impl<E, State> Endpoint<State> for MiddlewareEndpoint<E, State>
 where
@@ -114,17 +89,12 @@ where
     E: Endpoint<State>,
 {
     async fn call(&self, req: Request<State>) -> crate::Result {
-        let next = Next {
-            endpoint: &self.endpoint,
-            next_middleware: &self.middleware,
-        };
-        Ok(next.run(req).await)
+        panic!("STUB: not implemented");
     }
 }
-
 #[async_trait]
 impl<State: Clone + Send + Sync + 'static> Endpoint<State> for Box<dyn Endpoint<State>> {
     async fn call(&self, request: Request<State>) -> crate::Result {
-        self.as_ref().call(request).await
+        panic!("STUB: not implemented");
     }
 }

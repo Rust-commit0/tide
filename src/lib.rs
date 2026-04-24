@@ -52,7 +52,6 @@
 //! Hello, Mary Millipede! I've put in an order for 750 shoes
 //! ```
 //! See more examples in the [examples](https://github.com/http-rs/tide/tree/main/examples) directory.
-
 #![cfg_attr(feature = "docs", feature(doc_cfg))]
 #![forbid(unsafe_code)]
 #![deny(missing_debug_implementations, nonstandard_style)]
@@ -62,7 +61,6 @@
 #![doc(test(attr(allow(unused_extern_crates, unused_variables))))]
 #![doc(html_favicon_url = "https://yoshuawuyts.com/assets/http-rs/favicon.ico")]
 #![doc(html_logo_url = "https://yoshuawuyts.com/assets/http-rs/logo-rounded.png")]
-
 #[cfg(feature = "cookies")]
 mod cookies;
 mod endpoint;
@@ -75,19 +73,16 @@ mod response_builder;
 mod route;
 mod router;
 mod server;
-
 pub mod convert;
 pub mod listener;
 pub mod log;
 pub mod prelude;
 pub mod security;
 pub mod utils;
-
 #[cfg(feature = "sessions")]
 pub mod sessions;
 #[cfg(feature = "sse")]
 pub mod sse;
-
 pub use endpoint::Endpoint;
 pub use middleware::{Middleware, Next};
 pub use redirect::Redirect;
@@ -96,9 +91,7 @@ pub use response::Response;
 pub use response_builder::ResponseBuilder;
 pub use route::Route;
 pub use server::Server;
-
 pub use http_types::{self as http, Body, Error, Method, Status, StatusCode};
-
 /// Create a new Tide server.
 ///
 /// # Examples
@@ -115,9 +108,8 @@ pub use http_types::{self as http, Body, Error, Method, Status, StatusCode};
 /// ```
 #[must_use]
 pub fn new() -> server::Server<()> {
-    Server::new()
+    panic!("STUB: not implemented");
 }
-
 /// Create a new Tide server with shared application scoped state.
 ///
 /// Application scoped state is useful for storing items
@@ -154,8 +146,7 @@ pub fn with_state<State>(state: State) -> server::Server<State>
 where
     State: Clone + Send + Sync + 'static,
 {
-    Server::with_state(state)
+    panic!("STUB: not implemented");
 }
-
 /// A specialized Result type for Tide.
 pub type Result<T = Response> = std::result::Result<T, Error>;

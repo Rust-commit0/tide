@@ -1,22 +1,18 @@
 use std::convert::TryInto;
 use std::fmt::{Debug, Display};
 use std::ops::Index;
-
 use serde::Serialize;
-
 #[cfg(feature = "cookies")]
 use crate::http::cookies::Cookie;
 use crate::http::headers::{self, HeaderName, HeaderValues, ToHeaderValues};
 use crate::http::{self, Body, Error, Mime, StatusCode};
 use crate::ResponseBuilder;
-
 #[cfg(feature = "cookies")]
 #[derive(Debug)]
 pub(crate) enum CookieEvent {
     Added(Cookie<'static>),
     Removed(Cookie<'static>),
 }
-
 /// An HTTP response
 #[derive(Debug)]
 pub struct Response {
@@ -25,7 +21,6 @@ pub struct Response {
     #[cfg(feature = "cookies")]
     pub(crate) cookie_events: Vec<CookieEvent>,
 }
-
 impl Response {
     /// Create a new instance.
     #[must_use]
@@ -34,15 +29,8 @@ impl Response {
         S: TryInto<StatusCode>,
         S::Error: Debug,
     {
-        let res = http::Response::new(status);
-        Self {
-            res,
-            error: None,
-            #[cfg(feature = "cookies")]
-            cookie_events: vec![],
-        }
+        panic!("STUB: not implemented");
     }
-
     /// Begin a chained response builder. For more details, see [ResponseBuilder](crate::ResponseBuilder)
     ///
     /// # Example:
@@ -67,15 +55,13 @@ impl Response {
         S: TryInto<StatusCode>,
         S::Error: Debug,
     {
-        ResponseBuilder::new(status)
+        panic!("STUB: not implemented");
     }
-
     /// Returns the http status code.
     #[must_use]
     pub fn status(&self) -> crate::StatusCode {
-        self.res.status()
+        panic!("STUB: not implemented");
     }
-
     /// Set the http status code.
     ///
     /// # Example:
@@ -101,77 +87,75 @@ impl Response {
         S: TryInto<StatusCode>,
         S::Error: Debug,
     {
-        let status = status
-            .try_into()
-            .expect("Could not convert into a valid `StatusCode`");
-
-        self.res.set_status(status);
+        panic!("STUB: not implemented");
     }
-
     /// Get the length of the body.
     #[must_use]
     pub fn len(&self) -> Option<usize> {
-        self.res.len()
+        panic!("STUB: not implemented");
     }
-
     /// Checks if the body is empty.
     #[must_use]
     pub fn is_empty(&self) -> Option<bool> {
-        Some(self.res.len()? == 0)
+        panic!("STUB: not implemented");
     }
-
     /// Get an HTTP header.
     #[must_use]
     pub fn header(&self, name: impl Into<HeaderName>) -> Option<&HeaderValues> {
-        self.res.header(name)
+        panic!("STUB: not implemented");
     }
-
     /// Get an HTTP header mutably.
     #[must_use]
-    pub fn header_mut(&mut self, name: impl Into<HeaderName>) -> Option<&mut HeaderValues> {
-        self.res.header_mut(name)
+    pub fn header_mut(
+        &mut self,
+        name: impl Into<HeaderName>,
+    ) -> Option<&mut HeaderValues> {
+        panic!("STUB: not implemented");
     }
-
     /// Remove a header.
-    pub fn remove_header(&mut self, name: impl Into<HeaderName>) -> Option<HeaderValues> {
-        self.res.remove_header(name)
+    pub fn remove_header(
+        &mut self,
+        name: impl Into<HeaderName>,
+    ) -> Option<HeaderValues> {
+        panic!("STUB: not implemented");
     }
-
     /// Insert an HTTP header.
-    pub fn insert_header(&mut self, key: impl Into<HeaderName>, value: impl ToHeaderValues) {
-        self.res.insert_header(key, value);
+    pub fn insert_header(
+        &mut self,
+        key: impl Into<HeaderName>,
+        value: impl ToHeaderValues,
+    ) {
+        panic!("STUB: not implemented");
     }
-
     /// Append an HTTP header.
-    pub fn append_header(&mut self, key: impl Into<HeaderName>, value: impl ToHeaderValues) {
-        self.res.append_header(key, value);
+    pub fn append_header(
+        &mut self,
+        key: impl Into<HeaderName>,
+        value: impl ToHeaderValues,
+    ) {
+        panic!("STUB: not implemented");
     }
-
     /// An iterator visiting all header pairs in arbitrary order.
     #[must_use]
     pub fn iter(&self) -> headers::Iter<'_> {
-        self.res.iter()
+        panic!("STUB: not implemented");
     }
-
     /// An iterator visiting all header pairs in arbitrary order, with mutable references to the
     /// values.
     #[must_use]
     pub fn iter_mut(&mut self) -> headers::IterMut<'_> {
-        self.res.iter_mut()
+        panic!("STUB: not implemented");
     }
-
     /// An iterator visiting all header names in arbitrary order.
     #[must_use]
     pub fn header_names(&self) -> headers::Names<'_> {
-        self.res.header_names()
+        panic!("STUB: not implemented");
     }
-
     /// An iterator visiting all header values in arbitrary order.
     #[must_use]
     pub fn header_values(&self) -> headers::Values<'_> {
-        self.res.header_values()
+        panic!("STUB: not implemented");
     }
-
     /// Get the response content type as a `Mime`.
     ///
     /// This gets the request `Content-Type` header.
@@ -179,23 +163,20 @@ impl Response {
     /// [Read more on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
     #[must_use]
     pub fn content_type(&self) -> Option<Mime> {
-        self.res.content_type()
+        panic!("STUB: not implemented");
     }
-
     /// Set the response content type from a `MIME`.
     ///
     /// This sets the response `Content-Type` header.
     ///
     /// [Read more on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
     pub fn set_content_type(&mut self, mime: impl Into<Mime>) {
-        self.res.set_content_type(mime.into());
+        panic!("STUB: not implemented");
     }
-
     /// Set the body reader.
     pub fn set_body(&mut self, body: impl Into<Body>) {
-        self.res.set_body(body);
+        panic!("STUB: not implemented");
     }
-
     /// Take the response body as a `Body`.
     ///
     /// This method can be called after the body has already been taken or read,
@@ -203,9 +184,8 @@ impl Response {
     ///
     /// Useful for adjusting the whole body, such as in middleware.
     pub fn take_body(&mut self) -> Body {
-        self.res.take_body()
+        panic!("STUB: not implemented");
     }
-
     /// Swaps the value of the body with another body, without deinitializing
     /// either one.
     ///
@@ -231,9 +211,8 @@ impl Response {
     /// # Ok(()) }) }
     /// ```
     pub fn swap_body(&mut self, body: &mut Body) {
-        self.res.swap_body(body)
+        panic!("STUB: not implemented");
     }
-
     /// Pass JSON as the response body.
     ///
     /// # Mime
@@ -262,10 +241,8 @@ impl Response {
     /// # Ok(()) }
     /// ```
     pub fn body_json(&mut self, json: &impl Serialize) -> crate::Result<()> {
-        self.res.set_body(Body::from_json(json)?);
-        Ok(())
+        panic!("STUB: not implemented");
     }
-
     /// Pass a string as the response body.
     ///
     /// # Mime
@@ -284,9 +261,8 @@ impl Response {
     /// # Ok(()) }
     /// ```
     pub fn body_string(&mut self, string: String) {
-        self.res.set_body(Body::from_string(string));
+        panic!("STUB: not implemented");
     }
-
     /// Pass bytes as the request body.
     ///
     /// # Mime
@@ -305,9 +281,8 @@ impl Response {
     /// # Ok(()) }
     /// ```
     pub fn body_bytes(&mut self, bytes: impl AsRef<[u8]>) {
-        self.set_body(Body::from(bytes.as_ref()));
+        panic!("STUB: not implemented");
     }
-
     /// Pass a file as the response body.
     ///
     /// # Mime
@@ -332,17 +307,17 @@ impl Response {
     /// res.body_file("./archive.tgz").await?;
     /// # Ok(()) }
     /// ```
-    pub async fn body_file(&mut self, path: impl AsRef<std::path::Path>) -> std::io::Result<()> {
-        self.set_body(Body::from_file(path).await?);
-        Ok(())
+    pub async fn body_file(
+        &mut self,
+        path: impl AsRef<std::path::Path>,
+    ) -> std::io::Result<()> {
+        panic!("STUB: not implemented");
     }
-
     /// Insert cookie in the cookie jar.
     #[cfg(feature = "cookies")]
     pub fn insert_cookie(&mut self, cookie: Cookie<'static>) {
-        self.cookie_events.push(CookieEvent::Added(cookie));
+        panic!("STUB: not implemented");
     }
-
     /// Removes the cookie. This instructs the `CookiesMiddleware` to send a cookie with empty value
     /// in the response.
     ///
@@ -365,14 +340,12 @@ impl Response {
     /// [section 5.3 step 11 of RFC 6265]: https://tools.ietf.org/html/rfc6265#section-5.3
     #[cfg(feature = "cookies")]
     pub fn remove_cookie(&mut self, cookie: Cookie<'static>) {
-        self.cookie_events.push(CookieEvent::Removed(cookie));
+        panic!("STUB: not implemented");
     }
-
     /// Returns an optional reference to an error if the response contains one.
     pub fn error(&self) -> Option<&Error> {
-        self.error.as_ref()
+        panic!("STUB: not implemented");
     }
-
     /// Returns a reference to the original error associated with this response if there is one and
     /// if it can be downcast to the specified type.
     ///
@@ -400,170 +373,124 @@ impl Response {
     where
         E: Display + Debug + Send + Sync + 'static,
     {
-        self.error.as_ref()?.downcast_ref()
+        panic!("STUB: not implemented");
     }
-
     /// Takes the error from the response if one exists, replacing it with `None`.
     pub fn take_error(&mut self) -> Option<Error> {
-        self.error.take()
+        panic!("STUB: not implemented");
     }
-
     /// Sets the response's error, overwriting any existing error.
     ///
     /// This is particularly useful for middleware which would like to notify further
     /// middleware that an error has occurred without overwriting the existing response.
     pub fn set_error(&mut self, error: impl Into<Error>) {
-        self.error = Some(error.into());
+        panic!("STUB: not implemented");
     }
-
     /// Get a response scoped extension value.
     #[must_use]
     pub fn ext<T: Send + Sync + 'static>(&self) -> Option<&T> {
-        self.res.ext().get()
+        panic!("STUB: not implemented");
     }
-
     /// Set a response scoped extension value.
     pub fn insert_ext<T: Send + Sync + 'static>(&mut self, val: T) {
-        self.res.ext_mut().insert(val);
+        panic!("STUB: not implemented");
     }
-
     /// Create a `tide::Response` from a type that can be converted into an
     /// `http_types::Response`.
     pub fn from_res<T>(value: T) -> Self
     where
         T: Into<http_types::Response>,
     {
-        let res: http_types::Response = value.into();
-        Self {
-            res,
-            error: None,
-            #[cfg(feature = "cookies")]
-            cookie_events: vec![],
-        }
+        panic!("STUB: not implemented");
     }
 }
-
 impl AsRef<http::Response> for Response {
     fn as_ref(&self) -> &http::Response {
-        &self.res
+        panic!("STUB: not implemented");
     }
 }
-
 impl AsMut<http::Response> for Response {
     fn as_mut(&mut self) -> &mut http::Response {
-        &mut self.res
+        panic!("STUB: not implemented");
     }
 }
-
 impl AsRef<http::Headers> for Response {
     fn as_ref(&self) -> &http::Headers {
-        self.res.as_ref()
+        panic!("STUB: not implemented");
     }
 }
-
 impl AsMut<http::Headers> for Response {
     fn as_mut(&mut self) -> &mut http::Headers {
-        self.res.as_mut()
+        panic!("STUB: not implemented");
     }
 }
-
 impl From<Response> for http::Response {
     fn from(response: Response) -> http_types::Response {
-        response.res
+        panic!("STUB: not implemented");
     }
 }
-
 impl From<http::Body> for Response {
     fn from(body: http::Body) -> Self {
-        let mut res = Response::new(200);
-        res.set_body(body);
-        res
+        panic!("STUB: not implemented");
     }
 }
-
 impl From<serde_json::Value> for Response {
     fn from(json_value: serde_json::Value) -> Self {
-        Body::from_json(&json_value)
-            .map(|body| body.into())
-            .unwrap_or_else(|_| Response::new(StatusCode::InternalServerError))
+        panic!("STUB: not implemented");
     }
 }
-
 impl From<Error> for Response {
     fn from(err: Error) -> Self {
-        Self {
-            res: http::Response::new(err.status()),
-            error: Some(err),
-            #[cfg(feature = "cookies")]
-            cookie_events: vec![],
-        }
+        panic!("STUB: not implemented");
     }
 }
-
 impl From<http::Response> for Response {
     fn from(res: http::Response) -> Self {
-        Self {
-            res,
-            error: None,
-            #[cfg(feature = "cookies")]
-            cookie_events: vec![],
-        }
+        panic!("STUB: not implemented");
     }
 }
-
 impl From<StatusCode> for Response {
     fn from(status: StatusCode) -> Self {
-        let res: http::Response = status.into();
-        res.into()
+        panic!("STUB: not implemented");
     }
 }
-
 impl From<String> for Response {
     fn from(s: String) -> Self {
-        Body::from_string(s).into()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<'a> From<&'a str> for Response {
     fn from(s: &'a str) -> Self {
-        Body::from_string(String::from(s)).into()
+        panic!("STUB: not implemented");
     }
 }
-
 impl IntoIterator for Response {
     type Item = (HeaderName, HeaderValues);
     type IntoIter = http_types::headers::IntoIter;
-
     /// Returns a iterator of references over the remaining items.
     #[inline]
     fn into_iter(self) -> Self::IntoIter {
-        self.res.into_iter()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<'a> IntoIterator for &'a Response {
     type Item = (&'a HeaderName, &'a HeaderValues);
     type IntoIter = http_types::headers::Iter<'a>;
-
     #[inline]
     fn into_iter(self) -> Self::IntoIter {
-        self.res.iter()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<'a> IntoIterator for &'a mut Response {
     type Item = (&'a HeaderName, &'a mut HeaderValues);
     type IntoIter = http_types::headers::IterMut<'a>;
-
     #[inline]
     fn into_iter(self) -> Self::IntoIter {
-        self.res.iter_mut()
+        panic!("STUB: not implemented");
     }
 }
-
 impl Index<HeaderName> for Response {
     type Output = HeaderValues;
-
     /// Returns a reference to the value corresponding to the supplied name.
     ///
     /// # Panics
@@ -571,13 +498,11 @@ impl Index<HeaderName> for Response {
     /// Panics if the name is not present in `Response`.
     #[inline]
     fn index(&self, name: HeaderName) -> &HeaderValues {
-        &self.res[name]
+        panic!("STUB: not implemented");
     }
 }
-
 impl Index<&str> for Response {
     type Output = HeaderValues;
-
     /// Returns a reference to the value corresponding to the supplied name.
     ///
     /// # Panics
@@ -585,6 +510,6 @@ impl Index<&str> for Response {
     /// Panics if the name is not present in `Response`.
     #[inline]
     fn index(&self, name: &str) -> &HeaderValues {
-        &self.res[name]
+        panic!("STUB: not implemented");
     }
 }

@@ -15,11 +15,9 @@
 //! #
 //! # Ok(()) }) }
 //! ```
-
 use crate::http::headers::LOCATION;
 use crate::StatusCode;
 use crate::{Endpoint, Request, Response};
-
 /// A redirection endpoint.
 ///
 /// # Example
@@ -42,49 +40,32 @@ pub struct Redirect<T: AsRef<str>> {
     status: StatusCode,
     location: T,
 }
-
 impl<T: AsRef<str>> Redirect<T> {
     /// Creates an endpoint that represents a redirect to `location`.
     ///
     /// Uses status code 302 Found.
     pub fn new(location: T) -> Self {
-        Self {
-            status: StatusCode::Found,
-            location,
-        }
+        panic!("STUB: not implemented");
     }
-
     /// Creates an endpoint that represents a permanent redirect to `location`.
     ///
     /// Uses status code 308 Permanent Redirect.
     pub fn permanent(location: T) -> Self {
-        Self {
-            status: StatusCode::PermanentRedirect,
-            location,
-        }
+        panic!("STUB: not implemented");
     }
-
     /// Creates an endpoint that represents a temporary redirect to `location`.
     ///
     /// Uses status code 307 Temporary Redirect.
     pub fn temporary(location: T) -> Self {
-        Self {
-            status: StatusCode::TemporaryRedirect,
-            location,
-        }
+        panic!("STUB: not implemented");
     }
-
     /// Creates an endpoint that represents a see other redirect to `location`.
     ///
     /// Uses status code 303 See Other.
     pub fn see_other(location: T) -> Self {
-        Self {
-            status: StatusCode::SeeOther,
-            location,
-        }
+        panic!("STUB: not implemented");
     }
 }
-
 #[async_trait::async_trait]
 impl<State, T> Endpoint<State> for Redirect<T>
 where
@@ -92,45 +73,34 @@ where
     T: AsRef<str> + Send + Sync + 'static,
 {
     async fn call(&self, _req: Request<State>) -> crate::Result<Response> {
-        Ok(self.into())
+        panic!("STUB: not implemented");
     }
 }
-
 impl<T: AsRef<str>> From<Redirect<T>> for Response {
     fn from(redirect: Redirect<T>) -> Self {
-        Response::builder(redirect.status)
-            .header(LOCATION, redirect.location.as_ref())
-            .build()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<T: AsRef<str>> From<&Redirect<T>> for Response {
     fn from(redirect: &Redirect<T>) -> Response {
-        Response::builder(redirect.status)
-            .header(LOCATION, redirect.location.as_ref())
-            .build()
+        panic!("STUB: not implemented");
     }
 }
-
 #[cfg(test)]
 mod test {
     use super::*;
     use crate::*;
-
     #[test]
     fn smoke() {
         let redirect = Redirect::new("https://example.com");
         let res: Response = redirect.clone().into();
         assert_eq!(res.status(), StatusCode::Found);
-
         let redirect = Redirect::temporary("https://example.com");
         let res: Response = redirect.clone().into();
         assert_eq!(res.status(), StatusCode::TemporaryRedirect);
-
         let redirect = Redirect::permanent("https://example.com");
         let res: Response = redirect.clone().into();
         assert_eq!(res.status(), StatusCode::PermanentRedirect);
-
         let redirect = Redirect::see_other("https://example.com");
         let res: Response = redirect.clone().into();
         assert_eq!(res.status(), StatusCode::SeeOther);

@@ -1,10 +1,8 @@
 use async_std::io::{self, prelude::*};
 use async_std::task::{Context, Poll};
 use routefinder::Captures;
-
 use std::ops::Index;
 use std::pin::Pin;
-
 #[cfg(feature = "cookies")]
 use crate::cookies::CookieData;
 #[cfg(feature = "cookies")]
@@ -13,24 +11,17 @@ use crate::http::format_err;
 use crate::http::headers::{self, HeaderName, HeaderValues, ToHeaderValues};
 use crate::http::{self, Body, Method, Mime, StatusCode, Url, Version};
 use crate::Response;
-
 pin_project_lite::pin_project! {
-    /// An HTTP request.
-    ///
-    /// The `Request` gives endpoints access to basic information about the incoming
-    /// request, route parameters, and various ways of accessing the request's body.
-    ///
-    /// Requests also provide *extensions*, a type map primarily used for low-level
-    /// communication between middleware and endpoints.
-    #[derive(Debug)]
-    pub struct Request<State> {
-        pub(crate) state: State,
-        #[pin]
-        pub(crate) req: http::Request,
-        pub(crate) route_params: Vec<Captures<'static, 'static>>,
-    }
+    #[doc = " An HTTP request."] #[doc = ""] #[doc =
+    " The `Request` gives endpoints access to basic information about the incoming"]
+    #[doc =
+    " request, route parameters, and various ways of accessing the request's body."]
+    #[doc = ""] #[doc =
+    " Requests also provide *extensions*, a type map primarily used for low-level"] #[doc
+    = " communication between middleware and endpoints."] #[derive(Debug)] pub struct
+    Request < State > { pub (crate) state : State, #[pin] pub (crate) req :
+    http::Request, pub (crate) route_params : Vec < Captures <'static, 'static >>, }
 }
-
 impl<State> Request<State> {
     /// Create a new `Request`.
     pub(crate) fn new(
@@ -38,13 +29,8 @@ impl<State> Request<State> {
         req: http_types::Request,
         route_params: Vec<Captures<'static, 'static>>,
     ) -> Self {
-        Self {
-            state,
-            req,
-            route_params,
-        }
+        panic!("STUB: not implemented");
     }
-
     /// Access the request's HTTP method.
     ///
     /// # Examples
@@ -66,9 +52,8 @@ impl<State> Request<State> {
     /// ```
     #[must_use]
     pub fn method(&self) -> Method {
-        self.req.method()
+        panic!("STUB: not implemented");
     }
-
     /// Access the request's full URI method.
     ///
     /// # Examples
@@ -90,9 +75,8 @@ impl<State> Request<State> {
     /// ```
     #[must_use]
     pub fn url(&self) -> &Url {
-        self.req.url()
+        panic!("STUB: not implemented");
     }
-
     /// Access the request's HTTP version.
     ///
     /// # Examples
@@ -114,23 +98,20 @@ impl<State> Request<State> {
     /// ```
     #[must_use]
     pub fn version(&self) -> Option<Version> {
-        self.req.version()
+        panic!("STUB: not implemented");
     }
-
     /// Get the peer socket address for the underlying transport, if
     /// that information is available for this request.
     #[must_use]
     pub fn peer_addr(&self) -> Option<&str> {
-        self.req.peer_addr()
+        panic!("STUB: not implemented");
     }
-
     /// Get the local socket address for the underlying transport, if
     /// that information is available for this request.
     #[must_use]
     pub fn local_addr(&self) -> Option<&str> {
-        self.req.local_addr()
+        panic!("STUB: not implemented");
     }
-
     /// Get the remote address for this request.
     ///
     /// This is determined in the following priority:
@@ -139,9 +120,8 @@ impl<State> Request<State> {
     /// 3. Peer address of the transport
     #[must_use]
     pub fn remote(&self) -> Option<&str> {
-        self.req.remote()
+        panic!("STUB: not implemented");
     }
-
     /// Get the destination host for this request.
     ///
     /// This is determined in the following priority:
@@ -151,9 +131,8 @@ impl<State> Request<State> {
     /// 4. URL domain, if any
     #[must_use]
     pub fn host(&self) -> Option<&str> {
-        self.req.host()
+        panic!("STUB: not implemented");
     }
-
     /// Get the request content type as a `Mime`.
     ///
     /// This gets the request `Content-Type` header.
@@ -161,9 +140,8 @@ impl<State> Request<State> {
     /// [Read more on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
     #[must_use]
     pub fn content_type(&self) -> Option<Mime> {
-        self.req.content_type()
+        panic!("STUB: not implemented");
     }
-
     /// Get an HTTP header.
     ///
     /// # Examples
@@ -188,84 +166,81 @@ impl<State> Request<State> {
         &self,
         key: impl Into<http_types::headers::HeaderName>,
     ) -> Option<&http_types::headers::HeaderValues> {
-        self.req.header(key)
+        panic!("STUB: not implemented");
     }
-
     /// Get a mutable reference to a header.
-    pub fn header_mut(&mut self, name: impl Into<HeaderName>) -> Option<&mut HeaderValues> {
-        self.req.header_mut(name)
+    pub fn header_mut(
+        &mut self,
+        name: impl Into<HeaderName>,
+    ) -> Option<&mut HeaderValues> {
+        panic!("STUB: not implemented");
     }
-
     /// Set an HTTP header.
     pub fn insert_header(
         &mut self,
         name: impl Into<HeaderName>,
         values: impl ToHeaderValues,
     ) -> Option<HeaderValues> {
-        self.req.insert_header(name, values)
+        panic!("STUB: not implemented");
     }
-
     /// Append a header to the headers.
     ///
     /// Unlike `insert` this function will not override the contents of a header, but insert a
     /// header if there aren't any. Or else append to the existing list of headers.
-    pub fn append_header(&mut self, name: impl Into<HeaderName>, values: impl ToHeaderValues) {
-        self.req.append_header(name, values)
+    pub fn append_header(
+        &mut self,
+        name: impl Into<HeaderName>,
+        values: impl ToHeaderValues,
+    ) {
+        panic!("STUB: not implemented");
     }
-
     /// Remove a header.
-    pub fn remove_header(&mut self, name: impl Into<HeaderName>) -> Option<HeaderValues> {
-        self.req.remove_header(name)
+    pub fn remove_header(
+        &mut self,
+        name: impl Into<HeaderName>,
+    ) -> Option<HeaderValues> {
+        panic!("STUB: not implemented");
     }
-
     /// An iterator visiting all header pairs in arbitrary order.
     #[must_use]
     pub fn iter(&self) -> headers::Iter<'_> {
-        self.req.iter()
+        panic!("STUB: not implemented");
     }
-
     /// An iterator visiting all header pairs in arbitrary order, with mutable references to the
     /// values.
     #[must_use]
     pub fn iter_mut(&mut self) -> headers::IterMut<'_> {
-        self.req.iter_mut()
+        panic!("STUB: not implemented");
     }
-
     /// An iterator visiting all header names in arbitrary order.
     #[must_use]
     pub fn header_names(&self) -> headers::Names<'_> {
-        self.req.header_names()
+        panic!("STUB: not implemented");
     }
-
     /// An iterator visiting all header values in arbitrary order.
     #[must_use]
     pub fn header_values(&self) -> headers::Values<'_> {
-        self.req.header_values()
+        panic!("STUB: not implemented");
     }
-
     /// Get a request extension value.
     #[must_use]
     pub fn ext<T: Send + Sync + 'static>(&self) -> Option<&T> {
-        self.req.ext().get()
+        panic!("STUB: not implemented");
     }
-
     /// Get a mutable reference to value stored in request extensions.
     #[must_use]
     pub fn ext_mut<T: Send + Sync + 'static>(&mut self) -> Option<&mut T> {
-        self.req.ext_mut().get_mut()
+        panic!("STUB: not implemented");
     }
-
     /// Set a request extension value.
     pub fn set_ext<T: Send + Sync + 'static>(&mut self, val: T) -> Option<T> {
-        self.req.ext_mut().insert(val)
+        panic!("STUB: not implemented");
     }
-
     #[must_use]
     ///  Access application scoped state.
     pub fn state(&self) -> &State {
-        &self.state
+        panic!("STUB: not implemented");
     }
-
     /// Extract and parse a route parameter by name.
     ///
     /// Returns the parameter as a `&str`, borrowed from this `Request`.
@@ -297,13 +272,8 @@ impl<State> Request<State> {
     /// # Ok(()) })}
     /// ```
     pub fn param(&self, key: &str) -> crate::Result<&str> {
-        self.route_params
-            .iter()
-            .rev()
-            .find_map(|captures| captures.get(key))
-            .ok_or_else(|| format_err!("Param \"{}\" not found", key.to_string()))
+        panic!("STUB: not implemented");
     }
-
     /// Fetch the wildcard from the route, if it exists
     ///
     /// Returns the parameter as a `&str`, borrowed from this `Request`.
@@ -328,12 +298,8 @@ impl<State> Request<State> {
     /// # Ok(()) })}
     /// ```
     pub fn wildcard(&self) -> Option<&str> {
-        self.route_params
-            .iter()
-            .rev()
-            .find_map(|captures| captures.wildcard())
+        panic!("STUB: not implemented");
     }
-
     /// Parse the URL query component into a struct, using [serde_qs](https://docs.rs/serde_qs). To
     /// get the entire query as an unparsed string, use `request.url().query()`.
     ///
@@ -370,14 +336,12 @@ impl<State> Request<State> {
     /// assert_eq!(format, "bananna");
     /// ```
     pub fn query<'de, T: serde::de::Deserialize<'de>>(&'de self) -> crate::Result<T> {
-        self.req.query()
+        panic!("STUB: not implemented");
     }
-
     /// Set the body reader.
     pub fn set_body(&mut self, body: impl Into<Body>) {
-        self.req.set_body(body)
+        panic!("STUB: not implemented");
     }
-
     /// Take the request body as a `Body`.
     ///
     /// This method can be called after the body has already been taken or read,
@@ -385,9 +349,8 @@ impl<State> Request<State> {
     ///
     /// This is useful for consuming the body via an AsyncReader or AsyncBufReader.
     pub fn take_body(&mut self) -> Body {
-        self.req.take_body()
+        panic!("STUB: not implemented");
     }
-
     /// Reads the entire request body into a byte buffer.
     ///
     /// This method can be called after the body has already been read, but will
@@ -416,10 +379,8 @@ impl<State> Request<State> {
     /// # Ok(()) })}
     /// ```
     pub async fn body_bytes(&mut self) -> crate::Result<Vec<u8>> {
-        let res = self.req.body_bytes().await?;
-        Ok(res)
+        panic!("STUB: not implemented");
     }
-
     /// Reads the entire request body into a string.
     ///
     /// This method can be called after the body has already been read, but will
@@ -450,10 +411,8 @@ impl<State> Request<State> {
     /// # Ok(()) })}
     /// ```
     pub async fn body_string(&mut self) -> crate::Result<String> {
-        let res = self.req.body_string().await?;
-        Ok(res)
+        panic!("STUB: not implemented");
     }
-
     /// Reads and deserialized the entire request body via json.
     ///
     /// # Errors
@@ -463,11 +422,11 @@ impl<State> Request<State> {
     ///
     /// If the body cannot be interpreted as valid json for the target type `T`,
     /// an `Err` is returned.
-    pub async fn body_json<T: serde::de::DeserializeOwned>(&mut self) -> crate::Result<T> {
-        let res = self.req.body_json().await?;
-        Ok(res)
+    pub async fn body_json<T: serde::de::DeserializeOwned>(
+        &mut self,
+    ) -> crate::Result<T> {
+        panic!("STUB: not implemented");
     }
-
     /// Parse the request body as a form.
     ///
     /// ```rust
@@ -500,19 +459,17 @@ impl<State> Request<State> {
     /// // number too large to fit in target type
     /// # Ok(()) })}
     /// ```
-    pub async fn body_form<T: serde::de::DeserializeOwned>(&mut self) -> crate::Result<T> {
-        let res = self.req.body_form().await?;
-        Ok(res)
+    pub async fn body_form<T: serde::de::DeserializeOwned>(
+        &mut self,
+    ) -> crate::Result<T> {
+        panic!("STUB: not implemented");
     }
-
     /// returns a `Cookie` by name of the cookie.
     #[cfg(feature = "cookies")]
     #[must_use]
     pub fn cookie(&self, name: &str) -> Option<Cookie<'static>> {
-        self.ext::<CookieData>()
-            .and_then(|cookie_data| cookie_data.content.read().unwrap().get(name).cloned())
+        panic!("STUB: not implemented");
     }
-
     /// Retrieves a reference to the current session.
     ///
     /// # Panics
@@ -521,11 +478,8 @@ impl<State> Request<State> {
     /// been run.
     #[cfg(feature = "sessions")]
     pub fn session(&self) -> &crate::sessions::Session {
-        self.ext::<crate::sessions::Session>().expect(
-            "request session not initialized, did you enable tide::sessions::SessionMiddleware?",
-        )
+        panic!("STUB: not implemented");
     }
-
     /// Retrieves a mutable reference to the current session.
     ///
     /// # Panics
@@ -534,11 +488,8 @@ impl<State> Request<State> {
     /// been run.
     #[cfg(feature = "sessions")]
     pub fn session_mut(&mut self) -> &mut crate::sessions::Session {
-        self.ext_mut().expect(
-            "request session not initialized, did you enable tide::sessions::SessionMiddleware?",
-        )
+        panic!("STUB: not implemented");
     }
-
     /// Get the length of the body stream, if it has been set.
     ///
     /// This value is set when passing a fixed-size object as the body. E.g. a string, or a
@@ -546,104 +497,85 @@ impl<State> Request<State> {
     /// encoding, or set the response length.
     #[must_use]
     pub fn len(&self) -> Option<usize> {
-        self.req.len()
+        panic!("STUB: not implemented");
     }
-
     /// Returns `true` if the request has a set body stream length of zero, `false` otherwise.
     #[must_use]
     pub fn is_empty(&self) -> Option<bool> {
-        Some(self.req.len()? == 0)
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> AsRef<http::Request> for Request<State> {
     fn as_ref(&self) -> &http::Request {
-        &self.req
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> AsMut<http::Request> for Request<State> {
     fn as_mut(&mut self) -> &mut http::Request {
-        &mut self.req
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> AsRef<http::Headers> for Request<State> {
     fn as_ref(&self) -> &http::Headers {
-        self.req.as_ref()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> AsMut<http::Headers> for Request<State> {
     fn as_mut(&mut self) -> &mut http::Headers {
-        self.req.as_mut()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> Read for Request<State> {
     fn poll_read(
         self: Pin<&mut Self>,
         cx: &mut Context<'_>,
         buf: &mut [u8],
     ) -> Poll<io::Result<usize>> {
-        self.project().req.poll_read(cx, buf)
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> From<Request<State>> for http::Request {
     fn from(request: Request<State>) -> http::Request {
-        request.req
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State: Default> From<http_types::Request> for Request<State> {
     fn from(request: http_types::Request) -> Request<State> {
-        Request::new(State::default(), request, vec![])
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State: Clone + Send + Sync + 'static> From<Request<State>> for Response {
     fn from(mut request: Request<State>) -> Response {
-        let mut res = Response::new(StatusCode::Ok);
-        res.set_body(request.take_body());
-        res
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> IntoIterator for Request<State> {
     type Item = (HeaderName, HeaderValues);
     type IntoIter = http_types::headers::IntoIter;
-
     /// Returns a iterator of references over the remaining items.
     #[inline]
     fn into_iter(self) -> Self::IntoIter {
-        self.req.into_iter()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<'a, State> IntoIterator for &'a Request<State> {
     type Item = (&'a HeaderName, &'a HeaderValues);
     type IntoIter = http_types::headers::Iter<'a>;
-
     #[inline]
     fn into_iter(self) -> Self::IntoIter {
-        self.req.iter()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<'a, State> IntoIterator for &'a mut Request<State> {
     type Item = (&'a HeaderName, &'a mut HeaderValues);
     type IntoIter = http_types::headers::IterMut<'a>;
-
     #[inline]
     fn into_iter(self) -> Self::IntoIter {
-        self.req.iter_mut()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> Index<HeaderName> for Request<State> {
     type Output = HeaderValues;
-
     /// Returns a reference to the value corresponding to the supplied name.
     ///
     /// # Panics
@@ -651,13 +583,11 @@ impl<State> Index<HeaderName> for Request<State> {
     /// Panics if the name is not present in `Request`.
     #[inline]
     fn index(&self, name: HeaderName) -> &HeaderValues {
-        &self.req[name]
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> Index<&str> for Request<State> {
     type Output = HeaderValues;
-
     /// Returns a reference to the value corresponding to the supplied name.
     ///
     /// # Panics
@@ -665,6 +595,6 @@ impl<State> Index<&str> for Request<State> {
     /// Panics if the name is not present in `Request`.
     #[inline]
     fn index(&self, name: &str) -> &HeaderValues {
-        &self.req[name]
+        panic!("STUB: not implemented");
     }
 }

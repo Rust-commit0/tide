@@ -1,16 +1,13 @@
 //! An HTTP server
-
 use async_std::io;
 use async_std::sync::Arc;
 use kv_log_macro::{info, trace};
-
 #[cfg(feature = "cookies")]
 use crate::cookies;
 use crate::listener::{Listener, ToListener};
 use crate::middleware::{Middleware, Next};
 use crate::router::{Router, Selection};
 use crate::{Endpoint, Request, Route};
-
 /// An HTTP server.
 ///
 /// Servers are built up as a combination of *state*, *endpoints* and *middleware*:
@@ -39,7 +36,6 @@ pub struct Server<State> {
     #[allow(clippy::rc_buffer)]
     middleware: Arc<Vec<Arc<dyn Middleware<State>>>>,
 }
-
 impl Server<()> {
     /// Create a new Tide server.
     ///
@@ -57,16 +53,14 @@ impl Server<()> {
     /// ```
     #[must_use]
     pub fn new() -> Self {
-        Self::with_state(())
+        panic!("STUB: not implemented");
     }
 }
-
 impl Default for Server<()> {
     fn default() -> Self {
-        Self::new()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State> Server<State>
 where
     State: Clone + Send + Sync + 'static,
@@ -104,16 +98,8 @@ where
     /// # Ok(()) }) }
     /// ```
     pub fn with_state(state: State) -> Self {
-        Self {
-            router: Arc::new(Router::new()),
-            middleware: Arc::new(vec![
-                #[cfg(feature = "cookies")]
-                Arc::new(cookies::CookiesMiddleware::new()),
-            ]),
-            state,
-        }
+        panic!("STUB: not implemented");
     }
-
     /// Add a new route at the given `path`, relative to root.
     ///
     /// Routing means mapping an HTTP request to an endpoint. Here Tide applies
@@ -161,11 +147,8 @@ where
     /// match or not, which means that the order of adding resources has no
     /// effect.
     pub fn at<'a>(&'a mut self, path: &str) -> Route<'a, State> {
-        let router = Arc::get_mut(&mut self.router)
-            .expect("Registering routes is not possible after the Server has started");
-        Route::new(router, path.to_owned())
+        panic!("STUB: not implemented");
     }
-
     /// Add middleware to an application.
     ///
     /// Middleware provides customization of the request/response cycle, such as compression,
@@ -179,13 +162,8 @@ where
     where
         M: Middleware<State>,
     {
-        trace!("Adding middleware {}", middleware.name());
-        let m = Arc::get_mut(&mut self.middleware)
-            .expect("Registering middleware is not possible after the Server has started");
-        m.push(Arc::new(middleware));
-        self
+        panic!("STUB: not implemented");
     }
-
     /// Asynchronously serve the app with the supplied listener.
     ///
     /// This is a shorthand for calling `Server::bind`, logging the `ListenInfo`
@@ -204,15 +182,8 @@ where
     /// # Ok(()) }) }
     /// ```
     pub async fn listen<L: ToListener<State>>(self, listener: L) -> io::Result<()> {
-        let mut listener = listener.to_listener()?;
-        listener.bind(self).await?;
-        for info in listener.info().iter() {
-            info!("Server listening on {}", info);
-        }
-        listener.accept().await?;
-        Ok(())
+        panic!("STUB: not implemented");
     }
-
     /// Asynchronously bind the listener.
     ///
     /// Bind the listener. This starts the listening process by opening the
@@ -246,11 +217,8 @@ where
         self,
         listener: L,
     ) -> io::Result<<L as ToListener<State>>::Listener> {
-        let mut listener = listener.to_listener()?;
-        listener.bind(self).await?;
-        Ok(listener)
+        panic!("STUB: not implemented");
     }
-
     /// Respond to a `Request` with a `Response`.
     ///
     /// This method is useful for testing endpoints directly,
@@ -279,28 +247,8 @@ where
         Req: Into<http_types::Request>,
         Res: From<http_types::Response>,
     {
-        let req = req.into();
-        let Self {
-            router,
-            state,
-            middleware,
-        } = self.clone();
-
-        let method = req.method().to_owned();
-        let Selection { endpoint, params } = router.route(req.url().path(), method);
-        let route_params = vec![params];
-        let req = Request::new(state, req, route_params);
-
-        let next = Next {
-            endpoint,
-            next_middleware: &middleware,
-        };
-
-        let res = next.run(req).await;
-        let res: http_types::Response = res.into();
-        Ok(res.into())
+        panic!("STUB: not implemented");
     }
-
     /// Gets a reference to the server's state. This is useful for testing and nesting:
     ///
     /// # Example
@@ -313,73 +261,47 @@ where
     /// app.at("/").nest(admin);
     /// ```
     pub fn state(&self) -> &State {
-        &self.state
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State: Send + Sync + 'static> std::fmt::Debug for Server<State> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("Server").finish()
+        panic!("STUB: not implemented");
     }
 }
-
 impl<State: Clone> Clone for Server<State> {
     fn clone(&self) -> Self {
-        Self {
-            router: self.router.clone(),
-            state: self.state.clone(),
-            middleware: self.middleware.clone(),
-        }
+        panic!("STUB: not implemented");
     }
 }
-
 #[async_trait::async_trait]
-impl<State: Clone + Sync + Send + 'static, InnerState: Clone + Sync + Send + 'static>
-    Endpoint<State> for Server<InnerState>
-{
+impl<
+    State: Clone + Sync + Send + 'static,
+    InnerState: Clone + Sync + Send + 'static,
+> Endpoint<State> for Server<InnerState> {
     async fn call(&self, req: Request<State>) -> crate::Result {
-        let Request {
-            req,
-            mut route_params,
-            ..
-        } = req;
-        let path = req.url().path().to_owned();
-        let method = req.method().to_owned();
-        let router = self.router.clone();
-        let middleware = self.middleware.clone();
-        let state = self.state.clone();
-
-        let Selection { endpoint, params } = router.route(&path, method);
-        route_params.push(params);
-        let req = Request::new(state, req, route_params);
-
-        let next = Next {
-            endpoint,
-            next_middleware: &middleware,
-        };
-
-        Ok(next.run(req).await)
+        panic!("STUB: not implemented");
     }
 }
-
 #[crate::utils::async_trait]
-impl<State: Clone + Send + Sync + Unpin + 'static> http_client::HttpClient for Server<State> {
-    async fn send(&self, req: crate::http::Request) -> crate::http::Result<crate::http::Response> {
-        self.respond(req).await
+impl<State: Clone + Send + Sync + Unpin + 'static> http_client::HttpClient
+for Server<State> {
+    async fn send(
+        &self,
+        req: crate::http::Request,
+    ) -> crate::http::Result<crate::http::Response> {
+        panic!("STUB: not implemented");
     }
 }
-
 #[cfg(test)]
 mod test {
     use crate as tide;
-
     #[test]
     fn allow_nested_server_with_same_state() {
         let inner = tide::new();
         let mut outer = tide::new();
         outer.at("/foo").get(inner);
     }
-
     #[test]
     fn allow_nested_server_with_different_state() {
         let inner = tide::with_state(1);

@@ -68,9 +68,6 @@
 //! it is the tide application's responsibility to call cleanup on the
 //! session store if it requires it
 //!
-
 pub use middleware::SessionMiddleware;
-
 mod middleware;
-
 pub use async_session::{CookieStore, MemoryStore, Session, SessionStore};

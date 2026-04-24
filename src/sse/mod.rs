@@ -25,11 +25,9 @@
 //! app.listen("localhost:8080").await?;
 //! # Ok(()) }) }
 //! ```
-
 mod endpoint;
 mod sender;
 mod upgrade;
-
 pub use endpoint::{endpoint, SseEndpoint};
 pub use sender::Sender;
 pub use upgrade::upgrade;
